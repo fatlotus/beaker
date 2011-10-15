@@ -6,8 +6,13 @@ import java.io.IOException;
 
 public class Plugin extends AbstractPlugin {
 	@Override
-	public boolean isSourceFile(File f) {
-		return f.getName().endsWith(".rb");
+	public String getSourceExtension() {
+		return ".java";
+	}
+	
+	@Override
+	public String getCompiledExtension() {
+		return ".class";
 	}
 	
 	@Override
