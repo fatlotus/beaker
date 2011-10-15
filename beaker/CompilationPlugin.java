@@ -1,12 +1,13 @@
 package beaker;
 
+import beaker.Plugin;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.io.File;
 
-public abstract class AbstractPlugin {
+public abstract class CompilationPlugin implements Plugin {
 	public String getSourceExtension() {
 		return "";
 	}
@@ -31,9 +32,14 @@ public abstract class AbstractPlugin {
 		if (!isSourceFile(file))
 			return null;
 		
-		String s = file.toString();
+		String filename = file.toString();
 		
-		return new File(s.substring(0, s.length() - 5) + getCompiledExtension());
+		if (filename.endsWith(getSourceExtension())) {
+			int slice = filename.length() - getSourceExtension().length();
+			filename = filename.substring(0, slice);
+		}
+		
+		return new File(filename + getCompiledExtension());
 	}
 	
 	public File[] recursiveScan(File directory) {
@@ -97,5 +103,28 @@ public abstract class AbstractPlugin {
 		}
 		
 		return any;
+	}
+	
+	@Override
+	public boolean hasMoreTasksInStage(String stageName) {
+		if (stageName.equals("build")) {
+			return needsCompilation();
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public boolean performTasksInStage(String stageName) {
+		if (stageName.equals("build")) {
+			return executeCompile();
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public String[] getDefinedStages() {
+		return new String[] { "build" };
 	}
 }

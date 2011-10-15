@@ -1,11 +1,11 @@
 package beaker.plugins.java;
 
+import beaker.CompilationPlugin;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 import java.io.File;
-import beaker.AbstractPlugin;
 
-public class Plugin extends AbstractPlugin {
+public class Plugin extends CompilationPlugin {
 	private JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 	
 	public Plugin() {

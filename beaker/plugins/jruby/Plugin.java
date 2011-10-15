@@ -1,13 +1,13 @@
 package beaker.plugins.jruby;
 
-import beaker.AbstractPlugin;
+import beaker.CompilationPlugin;
 import java.io.File;
 import java.io.IOException;
 
-public class Plugin extends AbstractPlugin {
+public class Plugin extends CompilationPlugin {
 	@Override
 	public String getSourceExtension() {
-		return ".java";
+		return ".rb";
 	}
 	
 	@Override
