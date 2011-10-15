@@ -41,3 +41,13 @@ Ah, that's the wonderful part! Building is merely a question of running, in the 
 	$ beaker launch
 	... launches GUI program ...
 	$ 
+
+As an example, here is how to build and run Beaker with the sample JRuby project in `proj/`.
+
+	$ javac beaker/Build.java
+	$ java beaker.Build
+	+ compile proj/Main.rb
+	+ compile proj/HelloWorld.java
+	$ java -cp path/to/jruby-complete.jar:. proj/Main
+	Hello world!
+	$
