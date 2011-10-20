@@ -68,4 +68,11 @@ public class PluginCollection implements Plugin {
 		
 		return stages.toArray(new String[0]);
 	}
+	
+	@Override
+	public void setProject(Project project) {
+		for (Plugin p : plugins) {
+			p.setProject(project);
+		}
+	}
 }

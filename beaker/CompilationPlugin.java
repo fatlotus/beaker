@@ -8,16 +8,35 @@ import java.util.Queue;
 import java.io.File;
 
 public abstract class CompilationPlugin implements Plugin {
+	private Project project;
+	
+	public Project getProject() {
+		if (project == null)
+			throw new IllegalStateException("No project assigned.");
+		
+		return project;
+	}
+	
+	public void setProject(Project p) {
+		if (project != null)
+			throw new IllegalStateException("Already have a project!");
+		
+		if (p == null)
+			throw new NullPointerException();
+		
+		project = p;
+	}
+	
+	public String getSourceDirectory() {
+		return getProject().getSourceDirectory().getAbsolutePath();
+	}
+	
 	public String getSourceExtension() {
 		return "";
 	}
 	
 	public String getCompiledExtension() {
 		return "";
-	}
-	
-	public File getSourceDirectory() {
-		return new File("proj");
 	}
 	
 	public boolean isSourceFile(File file) {
@@ -52,6 +71,9 @@ public abstract class CompilationPlugin implements Plugin {
 			File item = toProcess.remove();
 			
 			if (item.isDirectory()) {
+				if (item.equals(getProject().getResourceDirectory()))
+					continue;
+				
 				for (File file : item.listFiles()) {
 					toProcess.add(file);
 				}
@@ -75,7 +97,7 @@ public abstract class CompilationPlugin implements Plugin {
 	public boolean executeCompile() {
 		boolean any = false, all = true;
 		
-		for (File filename : recursiveScan(getSourceDirectory())) {
+		for (File filename : recursiveScan(getProject().getSourceDirectory())) {
 			File dest = getCompiledTargetFor(filename);
 			
 			if (isSourceFile(filename) && needsRecompilation(filename, dest)) {
@@ -93,7 +115,7 @@ public abstract class CompilationPlugin implements Plugin {
 	public boolean needsCompilation() {
 		boolean any = false;
 		
-		for (File filename : recursiveScan(getSourceDirectory())) {
+		for (File filename : recursiveScan(getProject().getSourceDirectory())) {
 			File dest = getCompiledTargetFor(filename);
 			
 			if (isSourceFile(filename) && needsRecompilation(filename, dest)) {

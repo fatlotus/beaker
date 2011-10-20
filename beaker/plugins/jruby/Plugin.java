@@ -19,7 +19,7 @@ public class Plugin extends CompilationPlugin {
 	public boolean compileSourceFile(File file) {
 		try {
 			String[] command = new String[] { "jrubyc", "--dir",
-			  getSourceDirectory().toString(), file.toString() };
+			  getSourceDirectory(), file.toString() };
 			Process p = Runtime.getRuntime().exec(command);
 			
 			return p.waitFor() == 0;

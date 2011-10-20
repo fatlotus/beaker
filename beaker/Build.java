@@ -1,32 +1,17 @@
 package beaker;
 
 import beaker.PluginCollection;
-import beaker.AbstractPlugin;
-import java.util.Arrays;
+import java.io.File;
 
 public class Build {
 	private Build() { }
 	
 	public static void main(String[] args) throws Throwable {
-		Class<?> c;
-		c = beaker.plugins.jruby.Plugin.class;
-		c = beaker.plugins.java.Plugin.class;
-		c = beaker.PluginCollection.class;
-		c = beaker.CompilationPlugin.class;
+		Project p = new Project(new File("proj"));
 		
-		Plugin all = new PluginCollection("beaker.plugins.jruby.Plugin",
-		  "beaker.plugins.java.Plugin");
+		p.addPluginFromClass(beaker.plugins.jruby.Plugin.class);
+		p.addPluginFromClass(beaker.plugins.java.Plugin.class);
 		
-		int number = 1;
-		
-		while (number < 10) {
-			if (!all.hasMoreTasksInStage("build"))
-				break;
-			
-			if (!all.performTasksInStage("build"))
-				break;
-			
-			number++;
-		}
+		p.executeStage(args[0]);
 	}
 }
