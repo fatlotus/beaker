@@ -13,7 +13,8 @@ public class Plugin extends CompilationPlugin {
 	
 	@Override
 	public boolean compileSourceFile(File file) {
-		int result = compiler.run(null, null, null, file.getAbsolutePath());
+		int result = compiler.run(null, null, null, "-sourcepath",
+		  getSourceDirectory().getAbsolutePath(), file.getAbsolutePath());
 		
 		return (result == 0);
 	}

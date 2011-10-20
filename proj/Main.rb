@@ -1,3 +1,3 @@
 require 'java'
 
-Java::Proj::HelloWorld.new.say_it
+Java::HelloWorld.new.say_it
