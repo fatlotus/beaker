@@ -12,6 +12,6 @@ public class Build {
 		p.addPluginFromClass(beaker.plugins.jruby.Plugin.class);
 		p.addPluginFromClass(beaker.plugins.java.Plugin.class);
 		
-		p.executeStage(args[0]);
+		p.executeCommand(args);
 	}
 }

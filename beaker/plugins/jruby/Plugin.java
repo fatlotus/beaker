@@ -18,8 +18,10 @@ public class Plugin extends CompilationPlugin {
 	@Override
 	public boolean compileSourceFile(File file) {
 		try {
-			String[] command = new String[] { "jrubyc", "--dir",
-			  getSourceDirectory(), file.toString() };
+			String[] command = new String[] { "jrubyc",
+			  "--dir", getSourceDirectory(),
+			  "-d", getProject().getResourcePathFor("class").getAbsolutePath(),
+			  file.getAbsolutePath() };
 			Process p = Runtime.getRuntime().exec(command);
 			
 			return p.waitFor() == 0;
